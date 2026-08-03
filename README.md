@@ -113,16 +113,6 @@ Add the required services to a client that supports the standard MCP JSON format
 
 Each MCP server name matches its Skill name. Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
 
-## Local Documents
-
-The `document-parsing` Skill can process files from the user's machine:
-
-```text
-document-upload -> upload local file -> document-parsing -> document-parsing-result
-```
-
-The client does not need an object-storage API key. The bundled [upload script](skills/document-parsing/scripts/upload_document.py) uses the short-lived URL returned by Agent Body.
-
 ## Skill Structure
 
 ```text

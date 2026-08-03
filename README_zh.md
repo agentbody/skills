@@ -113,16 +113,6 @@
 
 MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
 
-## 本地文档
-
-`document-parsing` 可以处理用户 Agent 本地的文件：
-
-```text
-document-upload -> 上传本地文件 -> document-parsing -> document-parsing-result
-```
-
-客户端不需要对象存储 API Key。Skill 自带的[上传脚本](skills/document-parsing/scripts/upload_document.py)使用 Agent Body 返回的短期上传 URL。
-
 ## Skill 结构
 
 ```text
