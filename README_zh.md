@@ -55,6 +55,8 @@
 
 将需要的服务添加到支持标准 MCP JSON 格式的客户端。接入全部 Agent Body 服务时使用：
 
+所有 Agent Body MCP 服务都需要通过 [Agent Body Discord 社区](https://discord.gg/TxuDBzAYJr) 获取接入权限和凭证，请先加入社区。
+
 ```json
 {
   "mcpServers": {
@@ -111,7 +113,7 @@
 }
 ```
 
-MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
+将 `<AGENT_BODY_API_KEY>` 替换为社区提供的凭证。MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。凭证应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
 
 ## 贡献
 

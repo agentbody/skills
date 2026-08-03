@@ -55,6 +55,8 @@ Replace `document-parsing` with the Skill you want, then tell your AI agent:
 
 Add the required services to a client that supports the standard MCP JSON format. To connect all Agent Body services, use:
 
+Access to Agent Body MCP services is provided through the [Agent Body community on Discord](https://discord.gg/TxuDBzAYJr). Obtain your access credentials there before configuring a client.
+
 ```json
 {
   "mcpServers": {
@@ -111,7 +113,7 @@ Add the required services to a client that supports the standard MCP JSON format
 }
 ```
 
-Each MCP server name matches its Skill name. Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
+Replace `<AGENT_BODY_API_KEY>` with the credential provided by the community. Each MCP server name matches its Skill name. Keep only the services you need. Store the credential in your platform's secret store and never commit it to a Skill or repository.
 
 ## Contributing
 
