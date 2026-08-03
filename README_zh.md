@@ -29,7 +29,7 @@
 
 告诉你的 AI Agent：
 
-> 安装全部 Agent Body Skills。Skill 源地址：https://github.com/agentbody/skills。安装后验证是否可用。
+> 安装全部 Agent Body Skills。Skill 源地址：[https://github.com/agentbody/skills](https://github.com/agentbody/skills)。安装后验证是否可用。
 
 ### 可用 Skills
 
@@ -49,7 +49,7 @@
 
 将 `document-parsing` 替换为需要安装的 Skill 名称，然后告诉你的 AI Agent：
 
-> 安装 Agent Body 的 document-parsing Skill。Skill 源地址：https://github.com/agentbody/skills/tree/main/skills/document-parsing。安装后验证是否可用。
+> 安装 Agent Body 的 document-parsing Skill。Skill 源地址：[https://github.com/agentbody/skills/tree/main/skills/document-parsing](https://github.com/agentbody/skills/tree/main/skills/document-parsing)。安装后验证是否可用。
 
 ## 连接 MCP
 

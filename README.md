@@ -29,7 +29,7 @@ All capabilities are built, tested, and operated by Agent Body, so platforms do 
 
 Tell your AI agent:
 
-> Install all Agent Body Skills. Skill source: https://github.com/agentbody/skills. Verify they work after installation.
+> Install all Agent Body Skills. Skill source: [https://github.com/agentbody/skills](https://github.com/agentbody/skills). Verify they work after installation.
 
 ### Available Skills
 
@@ -49,7 +49,7 @@ One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
 
 Replace `document-parsing` with the Skill you want, then tell your AI agent:
 
-> Install the Agent Body document-parsing Skill. Skill source: https://github.com/agentbody/skills/tree/main/skills/document-parsing. Verify it works after installation.
+> Install the Agent Body document-parsing Skill. Skill source: [https://github.com/agentbody/skills/tree/main/skills/document-parsing](https://github.com/agentbody/skills/tree/main/skills/document-parsing). Verify it works after installation.
 
 ## Connect MCP
 
