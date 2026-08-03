@@ -31,6 +31,20 @@
 npx skills add agentbody/skills
 ```
 
+### 可用 Skills
+
+| Skill | MCP endpoint | 能力 |
+|---|---|---|
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 额度、用量汇总和请求历史 |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn 人员数据和 YouTube 商务联系人 |
+| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 潜在客户和销售机会信号 |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 竞品动态和市场反馈 |
+| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 痛点、预算、替代方案和购买意向 |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | 将文档转换为 Markdown 和结构化内容 |
+| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
+
+一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。
+
 安装单个 Skill：
 
 ```bash
@@ -62,20 +76,6 @@ npx skills add agentbody/skills --list
 ```
 
 API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
-
-## 可用 Skills
-
-一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。
-
-| Skill | MCP endpoint | 能力 |
-|---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 额度、用量汇总和请求历史 |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn 人员数据和 YouTube 商务联系人 |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 潜在客户和销售机会信号 |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 竞品动态和市场反馈 |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 痛点、预算、替代方案和购买意向 |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | 将文档转换为 Markdown 和结构化内容 |
-| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
 
 ## 本地文档
 

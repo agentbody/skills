@@ -31,6 +31,20 @@ Install all Skills:
 npx skills add agentbody/skills
 ```
 
+### Available Skills
+
+| Skill | MCP endpoint | Capability |
+|---|---|---|
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Quota, usage summaries, and request history |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn people data and YouTube business contacts |
+| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Potential customer and sales signals |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Competitor updates and market response |
+| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Pain points, budgets, alternatives, and buying intent |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | Documents to Markdown and structured content |
+| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
+
+One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
+
 Install one Skill:
 
 ```bash
@@ -62,20 +76,6 @@ Configure the MCP endpoint for the Skill you installed:
 ```
 
 Keep API keys in your platform's secret store. Never commit them to a Skill or repository.
-
-## Available Skills
-
-One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
-
-| Skill | MCP endpoint | Capability |
-|---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Quota, usage summaries, and request history |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn people data and YouTube business contacts |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Potential customer and sales signals |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Competitor updates and market response |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Pain points, budgets, alternatives, and buying intent |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | Documents to Markdown and structured content |
-| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
 
 ## Local Documents
 
