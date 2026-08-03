@@ -36,7 +36,7 @@ Tell your AI agent:
 | Skill | MCP endpoint | Capability |
 |---|---|---|
 | [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Account and usage management |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | Use AI to quickly find a person's public information and contact details |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | Look up LinkedIn profiles, work emails, phone numbers, and people by role, company, or location; find business emails for YouTube channels |
 | [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Find target customers across TikTok, YouTube, Reddit, Facebook, and professional websites |
 | [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Research competitor conversations across TikTok, YouTube, Reddit, Facebook, and professional websites |
 | [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Research pain points, budgets, alternatives, and buying intent across TikTok, YouTube, Reddit, Facebook, and professional websites |

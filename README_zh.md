@@ -36,7 +36,7 @@
 | Skill | MCP endpoint | 能力 |
 |---|---|---|
 | [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 账户与用量管理 |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | 用 AI 快速查找目标人物的公开信息与联系方式 |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | 查询 LinkedIn 用户画像、工作邮箱和电话，按职位、公司或地区搜索人员；查找 YouTube 频道商务邮箱 |
 | [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中发现目标客户 |
 | [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研竞品声音 |
 | [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研痛点、预算、替代方案和购买意向 |
