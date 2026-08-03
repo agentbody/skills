@@ -1,6 +1,6 @@
 ---
 name: account-usage
-description: Inspect the current Agent Body API key's quota, reserved amount, request counts, success and failure totals, spend summaries, and paginated usage records. Use when a user asks about credits, limits, billing usage, consumption, request history, or remaining capacity.
+description: Check the current Agent Body account balance, API key quota, reserved amount, request counts, success and failure totals, spending, and usage history. Use when a user asks about credits, balance, limits, billing usage, consumption, request history, or remaining capacity.
 ---
 
 # Account Usage

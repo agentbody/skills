@@ -58,49 +58,49 @@
 ```json
 {
   "mcpServers": {
-    "agentbody-account-usage": {
+    "account-usage": {
       "type": "http",
       "url": "https://api.agentbody.io/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-people-data": {
+    "people-data": {
       "type": "http",
       "url": "https://api.agentbody.io/people-data/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-find-leads": {
+    "find-leads": {
       "type": "http",
       "url": "https://api.agentbody.io/find-leads/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-competitor-monitoring": {
+    "competitor-monitoring": {
       "type": "http",
       "url": "https://api.agentbody.io/competitor-monitoring/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-demand-research": {
+    "demand-research": {
       "type": "http",
       "url": "https://api.agentbody.io/demand-research/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-document-parsing": {
+    "document-parsing": {
       "type": "http",
       "url": "https://api.agentbody.io/document-parsing/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-humanize-writing": {
+    "humanize-writing": {
       "type": "http",
       "url": "https://api.agentbody.io/humanizer/mcp",
       "headers": {
@@ -111,7 +111,7 @@
 }
 ```
 
-只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
+MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
 
 ## 本地文档
 

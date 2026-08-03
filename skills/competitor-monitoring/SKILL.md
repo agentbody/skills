@@ -1,6 +1,6 @@
 ---
 name: competitor-monitoring
-description: Monitor competitors for product updates, customer feedback, comparisons, and market reactions, then retrieve and review the resulting signals. Use when a user asks to track competitors, competitive intelligence, launches, reviews, or market response over time.
+description: Monitor and research competitor conversations, product updates, customer feedback, comparisons, and market reactions across TikTok, YouTube, Reddit, Facebook, social media, and professional websites. Use when a user asks to track competitors, gather competitive intelligence, study launches or reviews, or follow market response over time.
 ---
 
 # Competitor Monitoring

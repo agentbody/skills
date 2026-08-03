@@ -1,6 +1,6 @@
 ---
 name: document-parsing
-description: Upload documents and parse them into Markdown and structured content, with page-level or Markdown-range retrieval. Use when a user asks to extract, convert, inspect, search, or analyze the contents of a document.
+description: Upload and parse PDFs, DOC and DOCX files, scans, images, XLSX spreadsheets, and other document formats into high-quality Markdown and structured content, with page-level or Markdown-range retrieval. Use when a user asks to extract, convert, inspect, search, or analyze documents, including multi-page files and long contracts.
 ---
 
 # Document Parsing

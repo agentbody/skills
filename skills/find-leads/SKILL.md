@@ -1,6 +1,6 @@
 ---
 name: find-leads
-description: Create and operate monitoring tasks that discover potential customer or sales-opportunity signals. Use when a user wants to find leads, monitor a market for prospects, collect buying signals, or review lead alerts over time.
+description: Find target customers, sales leads, prospects, and buying signals across TikTok, YouTube, Reddit, Facebook, social media, and professional websites through monitoring tasks. Use when a user wants to discover leads, monitor a market for prospects, collect sales opportunities, or review lead alerts over time.
 ---
 
 # Find Leads

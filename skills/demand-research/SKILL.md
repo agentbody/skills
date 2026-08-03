@@ -1,6 +1,6 @@
 ---
 name: demand-research
-description: Research customer pain points, budgets, alternatives, and buying intent through monitored demand signals. Use when a user wants to understand market demand, customer needs, purchase readiness, or reasons people choose competing solutions.
+description: Research customer pain points, budgets, alternatives, purchase intent, and buying signals across TikTok, YouTube, Reddit, Facebook, social media, and professional websites. Use when a user wants to understand market demand, customer needs, purchase readiness, unmet needs, or reasons people choose competing solutions.
 ---
 
 # Demand Research

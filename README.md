@@ -58,49 +58,49 @@ Add the required services to a client that supports the standard MCP JSON format
 ```json
 {
   "mcpServers": {
-    "agentbody-account-usage": {
+    "account-usage": {
       "type": "http",
       "url": "https://api.agentbody.io/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-people-data": {
+    "people-data": {
       "type": "http",
       "url": "https://api.agentbody.io/people-data/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-find-leads": {
+    "find-leads": {
       "type": "http",
       "url": "https://api.agentbody.io/find-leads/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-competitor-monitoring": {
+    "competitor-monitoring": {
       "type": "http",
       "url": "https://api.agentbody.io/competitor-monitoring/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-demand-research": {
+    "demand-research": {
       "type": "http",
       "url": "https://api.agentbody.io/demand-research/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-document-parsing": {
+    "document-parsing": {
       "type": "http",
       "url": "https://api.agentbody.io/document-parsing/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "agentbody-humanize-writing": {
+    "humanize-writing": {
       "type": "http",
       "url": "https://api.agentbody.io/humanizer/mcp",
       "headers": {
@@ -111,7 +111,7 @@ Add the required services to a client that supports the standard MCP JSON format
 }
 ```
 
-Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
+Each MCP server name matches its Skill name. Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
 
 ## Local Documents
 
