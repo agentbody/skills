@@ -25,11 +25,9 @@ All capabilities are built, tested, and operated by Agent Body, so platforms do 
 
 ## Install
 
-Install all Skills:
+Tell your AI agent:
 
-```bash
-npx skills add agentbody/skills
-```
+> Install all Agent Body Skills. Skill source: https://github.com/agentbody/skills. Detect the current agent platform, install the Skills in the correct directory, and verify they are available after installation.
 
 ### Available Skills
 
@@ -44,6 +42,14 @@ npx skills add agentbody/skills
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
 
 One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
+
+### Manual Installation
+
+Install all Skills:
+
+```bash
+npx skills add agentbody/skills
+```
 
 Install one Skill:
 

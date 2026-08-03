@@ -25,11 +25,9 @@
 
 ## 安装
 
-安装全部 Skills：
+告诉你的 AI Agent：
 
-```bash
-npx skills add agentbody/skills
-```
+> 安装全部 Agent Body Skills。Skill 源地址：https://github.com/agentbody/skills。请识别当前 Agent 平台，将 Skills 安装到正确目录，并在安装后验证它们是否可用。
 
 ### 可用 Skills
 
@@ -44,6 +42,14 @@ npx skills add agentbody/skills
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
 
 一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。
+
+### 手动安装
+
+安装全部 Skills：
+
+```bash
+npx skills add agentbody/skills
+```
 
 安装单个 Skill：
 
