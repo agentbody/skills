@@ -5,7 +5,7 @@
   <p>
     <a href="README.md">English</a> ·
     <a href="#安装">安装</a> ·
-    <a href="#连接">连接</a> ·
+    <a href="#连接-mcp">连接</a> ·
     <a href="#可用-skills">Skills</a>
   </p>
   <p>
@@ -25,6 +25,8 @@
 
 ## 安装
 
+### 安装全部 Skills
+
 告诉你的 AI Agent：
 
 > 安装全部 Agent Body Skills。Skill 源地址：https://github.com/agentbody/skills。安装后验证是否可用。
@@ -42,6 +44,12 @@
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
 
 一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。
+
+### 安装单个 Skill
+
+将 `document-parsing` 替换为需要安装的 Skill 名称，然后告诉你的 AI Agent：
+
+> 安装 Agent Body 的 document-parsing Skill。Skill 源地址：https://github.com/agentbody/skills/tree/main/skills/document-parsing。安装后验证是否可用。
 
 ### 手动安装
 
@@ -63,16 +71,58 @@ npx skills add agentbody/skills --skill document-parsing
 npx skills add agentbody/skills --list
 ```
 
-## 连接
+## 连接 MCP
 
-配置已安装 Skill 对应的 MCP endpoint：
+将需要的服务添加到支持标准 MCP JSON 格式的客户端。接入全部 Agent Body 服务时使用：
 
 ```json
 {
   "mcpServers": {
+    "agentbody-account-usage": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
     "agentbody-people-data": {
       "type": "http",
       "url": "https://api.agentbody.io/people-data/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-find-leads": {
+      "type": "http",
+      "url": "https://api.agentbody.io/find-leads/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-competitor-monitoring": {
+      "type": "http",
+      "url": "https://api.agentbody.io/competitor-monitoring/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-demand-research": {
+      "type": "http",
+      "url": "https://api.agentbody.io/demand-research/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-document-parsing": {
+      "type": "http",
+      "url": "https://api.agentbody.io/document-parsing/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-humanize-writing": {
+      "type": "http",
+      "url": "https://api.agentbody.io/humanizer/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
@@ -81,7 +131,7 @@ npx skills add agentbody/skills --list
 }
 ```
 
-API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
+只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
 
 ## 本地文档
 

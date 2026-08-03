@@ -5,7 +5,7 @@
   <p>
     <a href="README_zh.md">中文</a> ·
     <a href="#install">Install</a> ·
-    <a href="#connect">Connect</a> ·
+    <a href="#connect-mcp">Connect</a> ·
     <a href="#available-skills">Skills</a>
   </p>
   <p>
@@ -25,6 +25,8 @@ All capabilities are built, tested, and operated by Agent Body, so platforms do 
 
 ## Install
 
+### Install All Skills
+
 Tell your AI agent:
 
 > Install all Agent Body Skills. Skill source: https://github.com/agentbody/skills. Verify they work after installation.
@@ -42,6 +44,12 @@ Tell your AI agent:
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
 
 One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
+
+### Install One Skill
+
+Replace `document-parsing` with the Skill you want, then tell your AI agent:
+
+> Install the Agent Body document-parsing Skill. Skill source: https://github.com/agentbody/skills/tree/main/skills/document-parsing. Verify it works after installation.
 
 ### Manual Installation
 
@@ -63,16 +71,58 @@ List available Skills:
 npx skills add agentbody/skills --list
 ```
 
-## Connect
+## Connect MCP
 
-Configure the MCP endpoint for the Skill you installed:
+Add the required services to a client that supports the standard MCP JSON format. To connect all Agent Body services, use:
 
 ```json
 {
   "mcpServers": {
+    "agentbody-account-usage": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
     "agentbody-people-data": {
       "type": "http",
       "url": "https://api.agentbody.io/people-data/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-find-leads": {
+      "type": "http",
+      "url": "https://api.agentbody.io/find-leads/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-competitor-monitoring": {
+      "type": "http",
+      "url": "https://api.agentbody.io/competitor-monitoring/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-demand-research": {
+      "type": "http",
+      "url": "https://api.agentbody.io/demand-research/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-document-parsing": {
+      "type": "http",
+      "url": "https://api.agentbody.io/document-parsing/mcp",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "agentbody-humanize-writing": {
+      "type": "http",
+      "url": "https://api.agentbody.io/humanizer/mcp",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
@@ -81,7 +131,7 @@ Configure the MCP endpoint for the Skill you installed:
 }
 ```
 
-Keep API keys in your platform's secret store. Never commit them to a Skill or repository.
+Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
 
 ## Local Documents
 
