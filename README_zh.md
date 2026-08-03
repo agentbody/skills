@@ -35,12 +35,12 @@ npx skills add agentbody/skills
 
 | Skill | MCP endpoint | 能力 |
 |---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 额度、用量汇总和请求历史 |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn 人员数据和 YouTube 商务联系人 |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 潜在客户和销售机会信号 |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 竞品动态和市场反馈 |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 痛点、预算、替代方案和购买意向 |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | 将文档转换为 Markdown 和结构化内容 |
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 账户与用量管理 |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | 用 AI 快速查找目标人物的公开信息与联系方式 |
+| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中发现目标客户 |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研竞品声音 |
+| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研痛点、预算、替代方案和购买意向 |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | 支持 DOC、PDF、扫描件、图片、XLSX 等 18 种格式，适用于多页文档和长篇合同，针对大模型优化并输出高质量 Markdown |
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
 
 一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。

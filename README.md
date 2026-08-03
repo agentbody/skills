@@ -35,12 +35,12 @@ npx skills add agentbody/skills
 
 | Skill | MCP endpoint | Capability |
 |---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Quota, usage summaries, and request history |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | LinkedIn people data and YouTube business contacts |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Potential customer and sales signals |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Competitor updates and market response |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Pain points, budgets, alternatives, and buying intent |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | Documents to Markdown and structured content |
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Account and usage management |
+| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | Use AI to quickly find a person's public information and contact details |
+| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Find target customers across TikTok, YouTube, Reddit, Facebook, and professional websites |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Research competitor conversations across TikTok, YouTube, Reddit, Facebook, and professional websites |
+| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Research pain points, budgets, alternatives, and buying intent across TikTok, YouTube, Reddit, Facebook, and professional websites |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | Parse 18 formats including DOC, PDF, scans, images, and XLSX; optimized for multi-page documents, long contracts, and high-quality Markdown output |
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
 
 One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
