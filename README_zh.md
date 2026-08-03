@@ -27,7 +27,7 @@
 
 告诉你的 AI Agent：
 
-> 安装全部 Agent Body Skills。Skill 源地址：https://github.com/agentbody/skills。请识别当前 Agent 平台，将 Skills 安装到正确目录，并在安装后验证它们是否可用。
+> 安装全部 Agent Body Skills。Skill 源地址：https://github.com/agentbody/skills。安装后验证是否可用。
 
 ### 可用 Skills
 

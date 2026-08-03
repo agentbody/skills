@@ -27,7 +27,7 @@ All capabilities are built, tested, and operated by Agent Body, so platforms do 
 
 Tell your AI agent:
 
-> Install all Agent Body Skills. Skill source: https://github.com/agentbody/skills. Detect the current agent platform, install the Skills in the correct directory, and verify they are available after installation.
+> Install all Agent Body Skills. Skill source: https://github.com/agentbody/skills. Verify they work after installation.
 
 ### Available Skills
 
