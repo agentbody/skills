@@ -51,26 +51,6 @@
 
 > 安装 Agent Body 的 document-parsing Skill。Skill 源地址：https://github.com/agentbody/skills/tree/main/skills/document-parsing。安装后验证是否可用。
 
-### 手动安装
-
-安装全部 Skills：
-
-```bash
-npx skills add agentbody/skills
-```
-
-安装单个 Skill：
-
-```bash
-npx skills add agentbody/skills --skill document-parsing
-```
-
-查看可用 Skills：
-
-```bash
-npx skills add agentbody/skills --list
-```
-
 ## 连接 MCP
 
 将需要的服务添加到支持标准 MCP JSON 格式的客户端。接入全部 Agent Body 服务时使用：

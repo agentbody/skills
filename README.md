@@ -51,26 +51,6 @@ Replace `document-parsing` with the Skill you want, then tell your AI agent:
 
 > Install the Agent Body document-parsing Skill. Skill source: https://github.com/agentbody/skills/tree/main/skills/document-parsing. Verify it works after installation.
 
-### Manual Installation
-
-Install all Skills:
-
-```bash
-npx skills add agentbody/skills
-```
-
-Install one Skill:
-
-```bash
-npx skills add agentbody/skills --skill document-parsing
-```
-
-List available Skills:
-
-```bash
-npx skills add agentbody/skills --list
-```
-
 ## Connect MCP
 
 Add the required services to a client that supports the standard MCP JSON format. To connect all Agent Body services, use:
