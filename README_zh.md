@@ -113,17 +113,6 @@
 
 MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。API Key 应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
 
-## Skill 结构
-
-```text
-skills/<skill-name>/
-├── SKILL.md          # 触发条件和固定流程
-├── references/       # 工具契约
-└── scripts/          # 可选本地辅助脚本
-```
-
-只有 `SKILL.md` 是必需文件，只有确有需要时才添加 references 和 scripts。
-
 ## 贡献
 
 - [贡献指南](CONTRIBUTING.md)

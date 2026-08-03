@@ -113,17 +113,6 @@ Add the required services to a client that supports the standard MCP JSON format
 
 Each MCP server name matches its Skill name. Keep only the services you need. Store the API key in your platform's secret store and never commit it to a Skill or repository.
 
-## Skill Structure
-
-```text
-skills/<skill-name>/
-├── SKILL.md          # Trigger and fixed workflow
-├── references/       # Tool contracts
-└── scripts/          # Optional local helpers
-```
-
-Only `SKILL.md` is required. Scripts and references are added when the Skill needs them.
-
 ## Contributing
 
 - [Contributing guide](CONTRIBUTING.md)
