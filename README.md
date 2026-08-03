@@ -1,6 +1,7 @@
 <div align="center">
-  <h1>Agent Body Skills</h1>
-  <p>Stable, self-developed capabilities for agent platforms, Skill platforms, and MCP platforms.</p>
+  <h1>Agent Body</h1>
+  <p><strong>Giving AI Agents a Body.</strong></p>
+  <p>Self-developed Skills and MCP services for platforms and enterprises in the agent era.</p>
   <p>
     <a href="README_zh.md">中文</a> ·
     <a href="#install">Install</a> ·
@@ -13,16 +14,14 @@
   </p>
 </div>
 
-Agent Body gives agents the ability to interact with the real world.
-
-We provide standardized Skills and MCP services so platforms can add data, research, document, and writing capabilities through one integration. Your platform owns the agent experience; Agent Body operates the service execution, authentication, usage, and billing layer.
+All capabilities are built, tested, and operated by Agent Body, so platforms do not have to evaluate and maintain inconsistent community services.
 
 ## Why Agent Body
 
-- **Stable integration:** one MCP endpoint maps to one Skill, with explicit tool and data boundaries.
-- **Self-developed services:** Agent Body builds and operates the capability layer behind each Skill.
-- **Predictable behavior:** every Skill defines triggers, inputs, fixed workflows, results, and failure handling.
-- **Platform-ready controls:** API-key authentication, tool permissions, quota, usage records, and protected service credentials.
+- **Built in-house:** We develop every Skill and its backend service.
+- **Reliable:** Thoroughly tested and continuously maintained.
+- **One integration:** Add multiple capabilities through one connection.
+- **Dedicated support:** One-on-one integration support for enterprise customers.
 
 ## Install
 

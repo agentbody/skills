@@ -1,6 +1,7 @@
 <div align="center">
-  <h1>Agent Body Skills</h1>
-  <p>面向 Agent 平台、Skill 平台和 MCP 平台，提供稳定、自研的企业级能力服务。</p>
+  <h1>Agent Body</h1>
+  <p><strong>Giving AI Agents a Body.</strong></p>
+  <p>面向 Agent 时代的平台与企业，提供 Agent 所需的自研 Skills 和 MCP 服务。</p>
   <p>
     <a href="README.md">English</a> ·
     <a href="#安装">安装</a> ·
@@ -13,16 +14,14 @@
   </p>
 </div>
 
-Agent Body，为 Agent 提供与真实世界交互的能力。
-
-我们提供标准化的 Skills 和 MCP 服务，让平台通过一次接入，快速扩展数据、研究、文档和写作能力。平台负责 Agent 体验，Agent Body 负责能力执行、认证、用量和计费服务。
+所有能力均由 Agent Body 团队自主开发、严格测试并持续运营。平台无需自行筛选和维护质量不一的社区服务。
 
 ## 为什么选择 Agent Body
 
-- **稳定接入：** 一个 MCP endpoint 对应一个 Skill，工具和数据边界明确。
-- **自研服务：** 每个 Skill 背后的能力由 Agent Body 构建和运营。
-- **流程可控：** 每个 Skill 都定义触发条件、输入、固定流程、结果和异常处理。
-- **面向平台：** 提供 API Key 认证、工具权限、额度、用量记录和服务端凭证保护。
+- **自主研发：** Skill 与后端服务均由我们自主开发。
+- **稳定可靠：** 严格测试，持续维护。
+- **统一接入：** 一次接入，快速扩展多种能力。
+- **专属支持：** 为企业客户提供一对一接入服务。
 
 ## 安装
 
