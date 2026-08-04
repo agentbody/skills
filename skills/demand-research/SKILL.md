@@ -1,48 +1,22 @@
 ---
 name: demand-research
-description: Research customer pain points, budgets, alternatives, purchase intent, and buying signals across TikTok, YouTube, Reddit, Facebook, social media, and professional websites. Use when a user wants to understand market demand, customer needs, purchase readiness, unmet needs, or reasons people choose competing solutions.
+description: Research public customer pain points, budgets, alternatives, recommendations, workarounds, and buying intent in social content. Use when a user wants to understand market demand, unmet needs, purchase readiness, or reasons people consider competing solutions.
 ---
 
 # Demand Research
 
-Research demand signals through the Agent Body MCP server at `/demand-research/mcp`.
+Research demand signals through the Agent Body MCP server at `/mcp/demand-research`.
 
-Read [references/tool-reference.md](references/tool-reference.md) for the monitor lifecycle and interpretation rules.
+Read [references/tool-reference.md](references/tool-reference.md) for exact schemas, supported sources, and lifecycle state.
 
-## Fixed workflow
+## Workflow
 
-### 1. Turn the question into a research brief
+1. Define a focused `objective`, measurable `until` condition, and one supported `source`. Include the audience, category, problem, geography, language, and desired evidence types when relevant.
+2. Call `demand_research_create_monitor` once. Retain the returned `monitor_id` and confidential `monitor_token`.
+3. Supply explicit `search_queries` to `demand_research_get_signals`. Use supported strategies, time windows, and bounded retrieval controls.
+4. Classify returned evidence as direct evidence, interpretation, or unknown. Preserve contradictions, negative evidence, source context, and coverage limits.
+5. Call `demand_research_review_signals` only after a verdict is known. Use `next_round_guidance` to refine later queries.
 
-Specify the audience, product/category, problem space, geography, language, sources, time window, and the evidence types needed: pain points, budget clues, alternatives, or buying intent. Define exclusions and the minimum signal quality needed for a decision.
+The service does not expose scheduling cadence or an external pagination cursor. Continue through additional bounded retrieval rounds only while the returned progress supports it.
 
-### 2. Create or reuse a monitor
-
-- Reuse a matching monitor identifier when one is provided.
-- Otherwise call `create-monitor` once after the brief is confirmed.
-- Retain the monitor identifier, status, and requested window.
-- Do not interpret monitor creation as evidence of demand.
-
-### 3. Retrieve signals
-
-Call `get-signals` for the monitor and requested period. Preserve source, timestamp, signal ID, pagination, and any confidence or relevance fields. Continue pagination only when the user requested complete coverage.
-
-### 4. Code evidence into themes
-
-For each signal, distinguish:
-
-- **Direct evidence**: an explicit pain point, budget statement, alternative, or intent statement.
-- **Interpretation**: a reasoned theme derived from one or more signals.
-- **Unknown**: information not present in the evidence.
-
-Group recurring themes, preserve outliers, and state sample or coverage limits. Never convert inferred intent into a confirmed purchase.
-
-### 5. Review and report
-
-Show a concise evidence table followed by themes, counter-signals, and open questions. Ask for dispositions when needed, then call `review-signals` to record confirmed review outcomes. Report reviewed, pending, and incomplete portions.
-
-## Failure handling and safety
-
-- Ask for a narrower audience or problem space when the research brief is too broad.
-- Report empty, partial, stale, or conflicting evidence explicitly.
-- Stop on permission or rate-limit errors and preserve the incomplete state.
-- Respect privacy, source permissions, and applicable research or outreach rules.
+Protect `monitor_token`, respect source permissions and privacy, and never convert inferred interest into confirmed purchase intent.

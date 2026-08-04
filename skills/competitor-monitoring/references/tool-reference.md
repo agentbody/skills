@@ -1,17 +1,33 @@
 # Competitor Monitoring Tool Reference
 
-MCP server: `/competitor-monitoring/mcp`
+MCP server: `/mcp/competitor-monitoring`
 
-Use the live MCP schema for exact fields. Keep monitor configuration, retrieved evidence, and human review as separate states.
+| Tool ID | MCP Tool |
+|---|---|
+| `competitor_monitoring.create_monitor` | `competitor_monitoring_create_monitor` |
+| `competitor_monitoring.get_signals` | `competitor_monitoring_get_signals` |
+| `competitor_monitoring.review_signals` | `competitor_monitoring_review_signals` |
 
-## Tools
+REST uses `POST /v1/tools/{tool_id}/call`.
 
-| Tool | Purpose | State to retain |
-|---|---|---|
-| `create-monitor` | Create a competitor monitoring task | Monitor ID, competitor set, topics, sources, cadence |
-| `get-signals` | Retrieve competitor updates, feedback, comparisons, and market response | Signal IDs, source, timestamp, cursor |
-| `review-signals` | Record review of a competitive signal | Signal IDs, disposition, reviewer outcome/status |
+The stable lifecycle is create -> retrieve -> review. Successful calls return the business result in `data`.
 
-## Evidence model
+## Create monitor
 
-For each signal preserve the observed claim, source context, timestamp, competitor/topic, and any freshness or confidence metadata. Keep interpretations in a separate field or paragraph. Do not present a signal as a general market fact without describing its scope.
+`competitor_monitoring_create_monitor` requires `objective`, `until`, and one `source`. Supported sources are `twitter`, `reddit`, `youtube`, `tiktok`, `douyin`, and `xiaohongshu`.
+
+Optional `limits` fields are `max_rounds` (1-10), `max_candidates` (1-500), and `target` (1-50). Retain the returned `monitor_id` and confidential `monitor_token`.
+
+## Get signals
+
+`competitor_monitoring_get_signals` requires `monitor_id`, `monitor_token`, and 1-50 `search_queries`. Every query requires `source` and `query`; it may also contain `query_id`, `strategy`, `time_window`, and `content_kind`.
+
+Strategies: `relevance`, `recent`, `popular`, `most_discussed`.
+
+Time windows: `all`, `hour`, `day`, `week`, `month`, `quarter`, `half_year`, `year`.
+
+Optional call controls are `discussion_depth` (`content`, `comments`, `threads`), `page_budget` (1-10), and `limit` (1-20). Preserve evidence, `progress`, `next_action`, and any `source_errors`.
+
+## Review signals
+
+`competitor_monitoring_review_signals` requires `monitor_id`, `monitor_token`, and `reviews`. Each review contains `lead_id`, `verdict` (`relevant`, `irrelevant`, `uncertain`), and optional `reason`. Optional `next_round_guidance` can refine later searches.

@@ -1,24 +1,29 @@
 # Humanize Writing Tool Reference
 
-MCP server: `/humanizer/mcp`
+MCP server: `/mcp/humanizer`
 
-Tool: `humanize_text`
+Tool ID: `humanizer.text`
 
-The runtime MCP schema is authoritative for exact field names. The stable request contract supplied for this Skill is:
+MCP Tool: `humanizer_text`
 
-- `text`: source text to rewrite
-- `language`: source or requested output language
-- `tone`: desired voice
+REST: `POST /v1/tools/humanizer.text/call`
 
-Optional audience, channel, length, or style controls may be used only when the live schema exposes them and the user supplied or approved them.
+## Input
 
-## Quality checklist
+| Field | Type | Required | Rules |
+|---|---|---:|---|
+| `text` | string | Yes | 1-20,000 characters |
+| `language` | string | No | Up to 35 characters; defaults to automatic detection |
+| `mode` | string | No | `light`, `balanced`, or `strong`; defaults to `balanced` |
 
-Before returning the result, compare the source and rewrite for:
+The schema does not accept `tone`, `audience`, `channel`, `length`, or arbitrary style fields.
 
-- names, numbers, dates, links, citations, and product terminology;
-- negations, legal qualifications, uncertainty, and scope;
-- language and requested tone;
-- headings, lists, code, and other intentional formatting.
+## Output
 
-When a source contains factual or legal claims, preserve them even if they make the prose less smooth. The tool improves expression; it does not fact-check or strengthen claims.
+Successful calls return:
+
+```json
+{"data":{"text":"<rewritten text>"}}
+```
+
+Before returning the text, compare names, numbers, dates, links, citations, negations, qualifications, language, headings, lists, and code blocks with the source.

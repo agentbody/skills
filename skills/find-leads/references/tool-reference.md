@@ -1,27 +1,34 @@
 # Find Leads Tool Reference
 
-MCP server: `/find-leads/mcp`
+MCP server: `/mcp/find-leads`
 
-Use the live MCP schema for exact input and output fields. The stable lifecycle is create -> retrieve -> review.
+| Tool ID | MCP Tool |
+|---|---|
+| `find_leads.create_monitor` | `find_leads_create_monitor` |
+| `find_leads.get_signals` | `find_leads_get_signals` |
+| `find_leads.review_signals` | `find_leads_review_signals` |
 
-## Tools
+REST uses `POST /v1/tools/{tool_id}/call`.
 
-| Tool | Purpose | State to retain |
-|---|---|---|
-| `create-monitor` | Create a potential-customer/sales-opportunity monitoring task | Monitor ID, status, scope, cadence |
-| `get-signals` | Retrieve discovered potential-customer signals | Monitor ID, signal IDs, cursor, source/timestamp |
-| `review-signals` | Record signal handling or review outcome | Signal IDs, disposition, review timestamp/status |
+The stable lifecycle is create -> retrieve -> review. Successful calls return the business result in `data`.
 
-## Signal evidence
+## Create monitor
 
-Keep the original signal text or evidence reference, source, timestamp, matched criterion, and confidence/priority when returned. Summaries must not replace the underlying evidence. A fetched signal is pending until a review outcome is recorded.
+`find_leads_create_monitor` requires `objective`, `until`, and one `source`. Supported sources are `twitter`, `reddit`, `youtube`, `tiktok`, `douyin`, and `xiaohongshu`.
 
-## Review queue shape
+Optional `limits` fields are `max_rounds` (1-10), `max_candidates` (1-500), and `target` (1-50). Retain the returned `monitor_id` and confidential `monitor_token`.
 
-```text
-Signal: <stable ID>
-Why it matches: <matched criterion and evidence>
-Source/time: <returned source metadata>
-Suggested disposition: <relevant / irrelevant / duplicate / follow-up>
-Review state: <pending until confirmed and recorded>
-```
+## Get signals
+
+`find_leads_get_signals` requires:
+
+- `monitor_id` and `monitor_token`.
+- `search_queries`, an array of 1-50 objects containing required `source` and `query`.
+
+Each query may include `query_id`, `strategy` (`relevance`, `recent`, `popular`, `most_discussed`), `time_window` (`all`, `hour`, `day`, `week`, `month`, `quarter`, `half_year`, `year`), and `content_kind`. The query source must match the source enabled for the monitor.
+
+Optional call controls are `discussion_depth` (`content`, `comments`, `threads`), `page_budget` (1-10), and `limit` (1-20). Preserve `leads`, `progress`, `next_action`, and any returned `source_errors`.
+
+## Review signals
+
+`find_leads_review_signals` requires `monitor_id`, `monitor_token`, and `reviews`. Each review contains `lead_id`, `verdict` (`relevant`, `irrelevant`, `uncertain`), and optional `reason`. Optional `next_round_guidance` can refine later searches.

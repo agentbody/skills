@@ -1,33 +1,44 @@
 # Account Usage Tool Reference
 
-MCP server: `/mcp`
+MCP server: `/mcp/account`
 
-The service runtime is the source of truth for exact input and output schemas. Use the tool schema exposed by the MCP connection; this document records the stable intent and handling rules only.
+Successful calls return the business result in `data`.
 
-## Tools
+REST uses `POST /v1/tools/{tool_id}/call` with the dotted Tool ID shown below.
 
-| Tool | Use it for | Required context to collect |
+## `account_quota`
+
+Tool ID: `account.quota`
+
+Input: `{}`
+
+Returns `balanceUsd`, `reservedUsd`, `availableUsd`, `keySpentUsd`, `keySpendLimitUsd`, and `keyRemainingUsd`. Limit and remaining values are null when the API key has no spend limit.
+
+## `usage_summary`
+
+Tool ID: `usage.summary`
+
+Optional inputs:
+
+| Field | Type | Rules |
 |---|---|---|
-| `account_quota` | Current balance, pre-authorized/reserved amount, and quota | Account/API-key scope if the client exposes more than one |
-| `usage_summary` | Request totals, success/failure totals, and consumption for a period | Start, end, timezone, and any service-supported filters |
-| `usage_history` | Itemized consumption records | Start, end, timezone, page/cursor intent, and any service-supported filters |
+| `from` | RFC 3339 string | Defaults to 30 days before the current time |
+| `to` | RFC 3339 string | Defaults to the current time |
 
-## Interpretation rules
+`from` must be earlier than `to`; the maximum range is 366 days. The result includes quota fields, the resolved range, request totals, `chargedUsd`, and breakdowns in `byProtocol` and `byService`.
 
-- A quota snapshot is current-state data; do not describe it as historical spend.
-- A reserved amount is not the same as consumed amount.
-- A summary total is complete only when the service reports a complete result for the requested period.
-- A history response may be paginated. Keep the cursor opaque and pass it back unchanged.
-- Preserve null, unavailable, and zero as different states when the service distinguishes them.
+## `usage_history`
 
-## Safe response shape
+Tool ID: `usage.history`
 
-```text
-Scope: <account scope returned by the service>
-Period: <period and timezone, or current snapshot>
+Optional inputs:
 
-Current capacity: <balance / reserved amount / quota, as available>
-Usage: <requests / successes / failures / spend, as available>
-Records: <count and page completeness>
-Notes: <empty, partial, or unavailable fields>
-```
+| Field | Type | Rules |
+|---|---|---|
+| `limit` | integer | 1-100; defaults to 20 |
+| `cursor` | string | Return the previous `nextCursor` unchanged |
+| `status` | string | `reserved`, `success`, `failed`, or `released` |
+| `service` | string | Exact public service filter |
+| `toolId` | string | Exact dotted Tool ID filter |
+
+This tool does not accept `from` or `to`. Each record contains `requestId`, `protocol`, `service`, `tool`, `status`, `chargedUsd`, `durationMs`, `createdAt`, and `completedAt`. A response includes `nextCursor` only when another page exists.

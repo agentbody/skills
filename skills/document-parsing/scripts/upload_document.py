@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upload a local file to an Agent Body document-upload URL."""
+"""Upload a local file to an Agent Body document_upload URL."""
 
 from __future__ import annotations
 
@@ -84,13 +84,13 @@ def upload(args: argparse.Namespace) -> dict[str, object]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Upload a local document to a temporary MCP upload URL")
+    parser = argparse.ArgumentParser(description="Upload a local document to a URL returned by document_upload")
     parser.add_argument("--file", type=Path, required=True, help="local file to upload")
-    parser.add_argument("--upload-url", required=True, help="temporary URL returned by document-upload")
+    parser.add_argument("--upload-url", required=True, help="temporary URL returned by document_upload")
     parser.add_argument("--method", choices=("PUT",), default="PUT")
     parser.add_argument("--headers-json", help="JSON object of signed upload headers")
     parser.add_argument("--headers-file", type=Path, help="file containing the signed upload headers as JSON")
-    parser.add_argument("--max-bytes", type=int, help="maximum size returned by document-upload")
+    parser.add_argument("--max-bytes", type=int, help="maximum size returned by document_upload")
     parser.add_argument("--timeout", type=float, default=120.0)
     args = parser.parse_args()
     try:

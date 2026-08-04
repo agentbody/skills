@@ -1,73 +1,71 @@
 # Document Parsing Tool Reference
 
-MCP server: `/document-parsing/mcp`
+MCP server: `/mcp/document-parsing`
 
-The Gateway contract below is implemented in `agentbody-gateway/internal/registry/document_parsing.go` and `internal/documentparsing/service.go`. Use the live MCP schema if it differs.
+| Tool ID | MCP Tool |
+|---|---|
+| `document.upload` | `document_upload` |
+| `document.parsing` | `document_parsing` |
+| `document.result.get` | `document_result_get` |
 
-## Tools
+REST uses `POST /v1/tools/{tool_id}/call`.
 
-| Tool | Purpose | State to retain |
-|---|---|---|
-| `document-upload` | Create a temporary document upload session | `fileName`, `contentType`, `sizeBytes` |
-| `document-parsing` | Parse the uploaded document to Markdown and structured content | Parsing job/document ID, status, warnings |
-| `document-parsing-result` | Read complete, page-level, or Markdown-range output | Requested range, returned range, completeness |
+Successful calls return the business result in `data`.
 
-## Upload contract
+## `document_upload`
 
-`document-upload` accepts:
+Creates a short-lived upload session for a local file.
 
-```json
-{
-  "fileName": "report.pdf",
-  "contentType": "application/pdf",
-  "sizeBytes": 123456
-}
-```
+| Field | Type | Required | Rules |
+|---|---|---:|---|
+| `fileName` | string | Yes | 1-255 characters |
+| `contentType` | string | Yes | 1-128 characters |
+| `sizeBytes` | integer | Yes | 1-52,428,800 bytes by default |
 
-The response contains:
+The result contains `uploadId`, `uploadUrl`, `method` (`PUT`), `headers`, `expiresAt`, and `maxBytes`. Stream the exact local file as raw bytes with the returned method and headers. The default session lifetime is 30 minutes.
 
-```json
-{
-  "uploadId": "<uuid>",
-  "uploadUrl": "https://<r2-presigned-url>",
-  "method": "PUT",
-  "headers": {"Content-Type": "application/pdf"},
-  "expiresAt": "<timestamp>",
-  "maxBytes": 52428800
-}
-```
+## `document_parsing`
 
-The MCP transport wraps successful business results as `{"data": <result>}`; the object above is the value of `data`.
-
-Upload raw file bytes with the returned `PUT` URL and headers. The object is stored in Agent Body's API-key-scoped temporary object storage; the client does not need to know the internal object key.
-
-The default session lifetime is 30 minutes. The maximum upload is 50 MiB unless the Gateway deployment changes `DOCUMENT_UPLOAD_MAX_BYTES`.
-
-The parser accepts at most 100 pages per document and the normalized stored result is limited to 8 MiB. Large results should be read through `document-parsing-result` ranges instead of requesting the whole document repeatedly.
-
-## Parse and read contract
-
-For a local upload, call `document-parsing` with:
+Use exactly one source form:
 
 ```json
 {"uploadId":"<uuid>"}
 ```
 
-The response returns `documentId`, `pages`, `preview`, and `read` metadata. Then call `document-parsing-result` with `documentId` and optional `pageStart`, `pageEnd`, `markdownStart`, or `markdownEnd`. Results are scoped to the authenticated API key.
+```json
+{"fileUrl":"https://example.com/report.pdf","fileName":"report.pdf"}
+```
 
-## Extraction quality record
+`fileUrl` must use HTTPS and is limited to 1,024 characters. Optional booleans are `analysisChart`, `mergeTables`, `relevelTitles`, `recognizeSeal`, and `returnSpanBoxes`.
 
-For every response retain:
+The result contains `documentId`, `pages`, `preview`, and `read`. Documents are limited to 100 pages and normalized stored results to 8 MiB.
 
-- source file identity;
-- parsing job/document identifier;
-- requested page or Markdown range;
-- returned coverage;
-- parser/OCR warnings;
-- whether the result is extracted text, structured data, or an interpretation.
+## `document_result_get`
 
-Never silently fill gaps in a document. Report missing pages, unreadable text, malformed tables, and expired sessions.
+Required input: `documentId` (UUID).
 
-## Local-file bridge
+Optional ranges:
 
-`document-upload` is the boundary between the MCP service and the agent's local filesystem. A local path is not itself a URL. Use `scripts/upload_document.py` to stream the authorized local file to the returned presigned URL, passing the exact headers returned by the service. Do not log or persist the URL or headers after the upload session expires. After successful parsing, the Gateway marks the session consumed and deletes the temporary object.
+| Field | Type | Rules |
+|---|---|---|
+| `pageStart` | integer | Minimum 1 |
+| `pageEnd` | integer | 1-100 |
+| `markdownStart` | integer | Minimum 0 |
+| `markdownEnd` | integer | Minimum 0 |
+
+Results are scoped to the API key that created the parsed document. The result contains `documentId`, returned page coverage, `pages`, `markdown`, `blocks`, and `markdownSpans`.
+
+## Local upload bridge
+
+Pass the values returned by `document_upload` to the bundled script:
+
+```bash
+python scripts/upload_document.py \
+  --file ./report.pdf \
+  --upload-url "<temporary-upload-url>" \
+  --method PUT \
+  --headers-file ./temporary-upload-headers.json \
+  --max-bytes 52428800
+```
+
+Do not log or retain the signed URL and headers after the upload completes.

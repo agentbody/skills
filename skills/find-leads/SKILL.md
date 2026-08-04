@@ -1,53 +1,22 @@
 ---
 name: find-leads
-description: Find target customers, sales leads, prospects, and buying signals across TikTok, YouTube, Reddit, Facebook, social media, and professional websites through monitoring tasks. Use when a user wants to discover leads, monitor a market for prospects, collect sales opportunities, or review lead alerts over time.
+description: Find potential customers, prospects, and buying signals in public social content through scoped research monitors. Use when a user wants to discover leads, collect sales opportunities, retrieve prospect signals, or review lead evidence.
 ---
 
 # Find Leads
 
-Discover and review potential customer signals through the Agent Body MCP server at `/find-leads/mcp`.
+Discover and review potential-customer signals through the Agent Body MCP server at `/mcp/find-leads`.
 
-Read [references/tool-reference.md](references/tool-reference.md) for the monitor lifecycle, signal fields, and review rules.
+Read [references/tool-reference.md](references/tool-reference.md) for exact schemas, supported sources, and lifecycle state.
 
-## Fixed workflow
+## Workflow
 
-### 1. Write a monitor brief
+1. Define a concrete research `objective`, measurable `until` condition, and one supported `source`.
+2. Call `find_leads_create_monitor` once. Retain the returned `monitor_id` and `monitor_token`; both are required for later calls.
+3. Build explicit `search_queries` for the monitor's source, then call `find_leads_get_signals`. Adjust query strategy, time window, discussion depth, page budget, or limit only through supported fields.
+4. Preserve each returned lead's evidence and source context. Separate observed content from interpretation and deduplicate by stable lead identity.
+5. Call `find_leads_review_signals` only after a verdict is known. Use `next_round_guidance` to improve the next retrieval round when appropriate.
 
-Before calling a tool, turn the request into a short brief containing:
+The service does not expose a scheduling cadence or external pagination cursor. Continue by making another bounded `get_signals` call with revised or repeated search queries while the returned progress indicates more work is useful.
 
-- target customer or buyer profile;
-- industry, geography, language, and company-size boundaries;
-- lead intent or event to detect;
-- keywords, sources, timing/cadence, and exclusions;
-- desired signal freshness and review cadence.
-
-Ask for the missing boundary that would materially change the result. Do not create an open-ended monitor by default.
-
-### 2. Create or select the monitor
-
-- If the user provides an existing monitor identifier, use it and do not create a duplicate.
-- Otherwise call `create-monitor` once with the approved brief.
-- Store the returned monitor identifier, status, and creation details for all later calls.
-- Never treat a monitor creation response as proof that a lead already exists.
-
-### 3. Retrieve signals
-
-Call `get-signals` for the monitor and requested time window. Preserve the service's pagination or cursor exactly. For each signal, capture the evidence, timestamp, source, matched criteria, and any confidence or priority returned.
-
-### 4. Triage without inventing evidence
-
-Classify each signal as relevant, irrelevant, duplicate, needs-review, or ready-for-action only when the returned evidence supports it. Separate observed text from the agent's interpretation. Deduplicate by the service's stable signal ID when available.
-
-### 5. Review and close the loop
-
-Ask for the user's disposition when it is not already specified. Call `review-signals` with the runtime schema to record confirmed outcomes. Do not mark a signal reviewed merely because it was fetched. Report the number of reviewed, pending, and skipped signals.
-
-## Failure handling and safety
-
-- **Missing scope**: ask for target market or signal criteria before creating a monitor.
-- **Duplicate monitor**: reuse the existing identifier when the brief matches; do not silently create another.
-- **Empty results**: report that no matching signals were found for the period.
-- **Partial retrieval**: state which pages or time range were not completed.
-- **Permission/rate limit**: stop and explain the service error; never bypass it.
-
-Do not fabricate leads, contact details, or evidence. Respect source permissions, privacy requirements, and applicable outreach laws.
+Never fabricate leads or contact details. Treat `monitor_token` as confidential, respect source permissions and privacy requirements, and stop on authentication or permission errors.

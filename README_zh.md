@@ -6,6 +6,7 @@
     <a href="README.md">English</a> ·
     <a href="#安装">安装</a> ·
     <a href="#连接-mcp">连接</a> ·
+    <a href="#调用-rest-api">REST API</a> ·
     <a href="#可用-skills">Skills</a>
   </p>
   <p>
@@ -35,13 +36,15 @@
 
 | Skill | MCP endpoint | 能力 |
 |---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | 账户与用量管理 |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | 查询 LinkedIn 用户画像、工作邮箱和电话，按职位、公司或地区搜索人员；查找 YouTube 频道商务邮箱 |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中发现目标客户 |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研竞品声音 |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | 从 TikTok、YouTube、Reddit、Facebook 等社交媒体和专业网站中调研痛点、预算、替代方案和购买意向 |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | 支持 DOC、PDF、扫描件、图片、XLSX 等 18 种格式，适用于多页文档和长篇合同，针对大模型优化并输出高质量 Markdown |
-| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | 保留原意和事实的自然化改写 |
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp/account` | 查询账户余额、API Key 配额、用量汇总和用量记录 |
+| [people-data](skills/people-data/SKILL.md) | `/mcp/people-data` | 查询职业资料和公开商务联系方式、搜索人员、查找 YouTube 频道邮箱 |
+| [find-leads](skills/find-leads/SKILL.md) | `/mcp/find-leads` | 发现并审核潜在客户的公开信号 |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/mcp/competitor-monitoring` | 调研竞品动态、反馈、对比和市场反应 |
+| [demand-research](skills/demand-research/SKILL.md) | `/mcp/demand-research` | 调研公开的痛点、预算、替代方案和购买意向 |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | 上传并解析文档，输出 Markdown 和结构化内容 |
+| [humanize-writing](skills/humanize-writing/SKILL.md) | `/mcp/humanizer` | 在保留原意和事实的前提下自然化改写文本 |
+| [youtube-transcript](skills/youtube-transcript/SKILL.md) | `/mcp/youtube-transcript` | 提取 YouTube 已有字幕轨道中的文本 |
+| [tiktok-transcript](skills/tiktok-transcript/SKILL.md) | `/mcp/tiktok-transcript` | 提取 TikTok 已有字幕或转写 TikTok 音频 |
 
 一个 MCP endpoint 对应一个 Skill，工具是该 Skill 内部的能力。
 
@@ -60,51 +63,65 @@
 ```json
 {
   "mcpServers": {
-    "account-usage": {
+    "account": {
       "type": "http",
-      "url": "https://api.agentbody.io/mcp",
+      "url": "https://api.agentbody.io/mcp/account",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "people-data": {
       "type": "http",
-      "url": "https://api.agentbody.io/people-data/mcp",
+      "url": "https://api.agentbody.io/mcp/people-data",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "find-leads": {
       "type": "http",
-      "url": "https://api.agentbody.io/find-leads/mcp",
+      "url": "https://api.agentbody.io/mcp/find-leads",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "competitor-monitoring": {
       "type": "http",
-      "url": "https://api.agentbody.io/competitor-monitoring/mcp",
+      "url": "https://api.agentbody.io/mcp/competitor-monitoring",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "demand-research": {
       "type": "http",
-      "url": "https://api.agentbody.io/demand-research/mcp",
+      "url": "https://api.agentbody.io/mcp/demand-research",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "document-parsing": {
       "type": "http",
-      "url": "https://api.agentbody.io/document-parsing/mcp",
+      "url": "https://api.agentbody.io/mcp/document-parsing",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "humanize-writing": {
+    "humanizer": {
       "type": "http",
-      "url": "https://api.agentbody.io/humanizer/mcp",
+      "url": "https://api.agentbody.io/mcp/humanizer",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "youtube-transcript": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp/youtube-transcript",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "tiktok-transcript": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp/tiktok-transcript",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
@@ -113,7 +130,28 @@
 }
 ```
 
-将 `<AGENT_BODY_API_KEY>` 替换为社区提供的凭证。MCP server 名称与 Skill 名称保持一致。只保留需要接入的服务。凭证应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。
+将 `<AGENT_BODY_API_KEY>` 替换为社区提供的凭证，只保留需要接入的服务。凭证应保存在平台的密钥管理系统中，不能提交到 Skill 或 GitHub 仓库。`/mcp`、`/people-data/mcp`、`/humanizer/mcp` 等旧路径不再支持。
+
+## 调用 REST API
+
+REST 与 MCP 通过同一套鉴权、校验、计费和用量记录流程暴露相同的 Tools。查询当前 API Key 可见的 Tools：
+
+```bash
+curl https://api.agentbody.io/v1/tools \
+  -H "Authorization: Bearer ${AGENT_BODY_API_KEY}"
+```
+
+使用 dotted Tool ID 调用任意 Tool：
+
+```bash
+curl -X POST https://api.agentbody.io/v1/tools/linkedin.email_lookup/call \
+  -H "Authorization: Bearer ${AGENT_BODY_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: lookup-001" \
+  --data '{"profileUrl":"https://www.linkedin.com/in/example"}'
+```
+
+成功响应为 `{"data": {...}}`，错误响应为 `{"error":{"code":"...","message":"..."}}`。`Idempotency-Key` 是可选请求头，建议用于可能重试的调用。每个 Skill 的 Tool Reference 都提供 REST dotted Tool ID、MCP Tool 名和精确输入合同之间的映射。
 
 ## 贡献
 

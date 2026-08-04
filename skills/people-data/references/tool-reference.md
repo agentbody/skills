@@ -1,31 +1,36 @@
 # People Data Tool Reference
 
-MCP server: `/people-data/mcp`
+MCP server: `/mcp/people-data`
 
-The runtime MCP schema is authoritative for exact fields. Never invent search filters, confidence fields, or contact-data keys that the service did not return.
+Successful calls return the business result in `data`.
 
-## Tools
+REST uses `POST /v1/tools/{tool_id}/call`.
 
-| Tool | Use it for | Preferred identifier or query |
-|---|---|---|
-| `linkedin-profile-lookup` | One LinkedIn profile | Canonical profile URL or stable profile identifier |
-| `linkedin-email-lookup` | Email enrichment for one LinkedIn person | Canonical LinkedIn profile URL |
-| `linkedin-phone-lookup` | Phone enrichment for one LinkedIn person | Canonical LinkedIn profile URL |
-| `linkedin-people-search` | Search multiple people | Explicit role, company, location, keyword, and exclusion criteria |
-| `youtube-email-finder` | A channel's business email | Channel URL or handle; name-only input requires disambiguation |
+| Tool ID | MCP Tool | Required input | Purpose |
+|---|---|---|---|
+| `linkedin.email_lookup` | `linkedin_email_lookup` | `profileUrl` (URI) | Look up an email address from a LinkedIn profile URL |
+| `linkedin.phone_lookup` | `linkedin_phone_lookup` | `profileUrl` (URI) | Look up a phone number from a LinkedIn profile URL |
+| `linkedin.person_profile` | `linkedin_person_profile` | `linkedin_url` (URI) | Retrieve one professional profile |
+| `linkedin.people_search` | `linkedin_people_search` | None | Search people with explicit filters |
+| `youtube.email_finder` | `youtube_email_finder` | `channels` | Find public business emails for channels |
 
-## Evidence and deduplication
+## People search fields
 
-- Treat canonical URLs, stable IDs, source labels, freshness, and verification flags as evidence metadata.
-- Deduplicate search results by stable ID first, canonical URL second, and normalized name/company only as a last resort.
-- Do not convert a missing verification flag into a verified claim.
-- Do not merge two people merely because their names match.
+`linkedin_people_search` accepts these optional fields:
 
-## Safe response shape
+- Strings: `name`, `companyFilter`, `keyword`, `nextPageToken`.
+- String arrays: `jobTitle`, `excludeJobTitles`, `seniority`, `jobFunction`, `skills`, `yearsOfExperience`, `yearsInCurrentRole`, `education`, `company`, `domain`, `excludeCompanies`, `location`, `industry`, `companySize`.
+- Booleans: `currentTitlesOnly`, `includeRelatedJobTitles`.
 
-```text
-Identity: <name / channel and canonical source>
-Role or channel context: <returned fields>
-Requested contact data: <email / phone / business email, or Not found>
-Evidence: <source, freshness, confidence, or verification returned by service>
+`companyFilter` must be `current`, `past`, or `all`. Pass a returned `nextPageToken` unchanged to continue a search.
+
+## YouTube email input
+
+```json
+{
+  "channels": ["https://www.youtube.com/@example"],
+  "scrape_fresh_emails": false
+}
 ```
+
+`channels` must contain 1-1000 non-empty strings. The result contains a `channels` array; preserve per-channel found/not-found state instead of inventing missing addresses.

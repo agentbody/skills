@@ -6,6 +6,7 @@
     <a href="README_zh.md">中文</a> ·
     <a href="#install">Install</a> ·
     <a href="#connect-mcp">Connect</a> ·
+    <a href="#call-rest-api">REST API</a> ·
     <a href="#available-skills">Skills</a>
   </p>
   <p>
@@ -35,13 +36,15 @@ Tell your AI agent:
 
 | Skill | MCP endpoint | Capability |
 |---|---|---|
-| [account-usage](skills/account-usage/SKILL.md) | `/mcp` | Account and usage management |
-| [people-data](skills/people-data/SKILL.md) | `/people-data/mcp` | Look up LinkedIn profiles, work emails, phone numbers, and people by role, company, or location; find business emails for YouTube channels |
-| [find-leads](skills/find-leads/SKILL.md) | `/find-leads/mcp` | Find target customers across TikTok, YouTube, Reddit, Facebook, and professional websites |
-| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/competitor-monitoring/mcp` | Research competitor conversations across TikTok, YouTube, Reddit, Facebook, and professional websites |
-| [demand-research](skills/demand-research/SKILL.md) | `/demand-research/mcp` | Research pain points, budgets, alternatives, and buying intent across TikTok, YouTube, Reddit, Facebook, and professional websites |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/document-parsing/mcp` | Parse 18 formats including DOC, PDF, scans, images, and XLSX; optimized for multi-page documents, long contracts, and high-quality Markdown output |
-| [humanize-writing](skills/humanize-writing/SKILL.md) | `/humanizer/mcp` | Natural writing that preserves meaning and facts |
+| [account-usage](skills/account-usage/SKILL.md) | `/mcp/account` | Check account balance, API key quota, usage summaries, and usage history |
+| [people-data](skills/people-data/SKILL.md) | `/mcp/people-data` | Look up professional profiles and public business contact data, search people, and find YouTube channel emails |
+| [find-leads](skills/find-leads/SKILL.md) | `/mcp/find-leads` | Discover and review public signals from potential customers |
+| [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/mcp/competitor-monitoring` | Research competitor updates, feedback, comparisons, and market response |
+| [demand-research](skills/demand-research/SKILL.md) | `/mcp/demand-research` | Research public pain points, budgets, alternatives, and buying intent |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | Upload and parse documents into Markdown and structured content |
+| [humanize-writing](skills/humanize-writing/SKILL.md) | `/mcp/humanizer` | Rewrite text naturally while preserving meaning and facts |
+| [youtube-transcript](skills/youtube-transcript/SKILL.md) | `/mcp/youtube-transcript` | Extract text from an existing YouTube subtitle track |
+| [tiktok-transcript](skills/tiktok-transcript/SKILL.md) | `/mcp/tiktok-transcript` | Extract existing TikTok captions or transcribe TikTok audio |
 
 One MCP endpoint is one Skill. Tools are capabilities inside that Skill.
 
@@ -60,51 +63,65 @@ Access to Agent Body MCP services is provided through the [Agent Body community 
 ```json
 {
   "mcpServers": {
-    "account-usage": {
+    "account": {
       "type": "http",
-      "url": "https://api.agentbody.io/mcp",
+      "url": "https://api.agentbody.io/mcp/account",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "people-data": {
       "type": "http",
-      "url": "https://api.agentbody.io/people-data/mcp",
+      "url": "https://api.agentbody.io/mcp/people-data",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "find-leads": {
       "type": "http",
-      "url": "https://api.agentbody.io/find-leads/mcp",
+      "url": "https://api.agentbody.io/mcp/find-leads",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "competitor-monitoring": {
       "type": "http",
-      "url": "https://api.agentbody.io/competitor-monitoring/mcp",
+      "url": "https://api.agentbody.io/mcp/competitor-monitoring",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "demand-research": {
       "type": "http",
-      "url": "https://api.agentbody.io/demand-research/mcp",
+      "url": "https://api.agentbody.io/mcp/demand-research",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
     "document-parsing": {
       "type": "http",
-      "url": "https://api.agentbody.io/document-parsing/mcp",
+      "url": "https://api.agentbody.io/mcp/document-parsing",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
     },
-    "humanize-writing": {
+    "humanizer": {
       "type": "http",
-      "url": "https://api.agentbody.io/humanizer/mcp",
+      "url": "https://api.agentbody.io/mcp/humanizer",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "youtube-transcript": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp/youtube-transcript",
+      "headers": {
+        "Authorization": "Bearer <AGENT_BODY_API_KEY>"
+      }
+    },
+    "tiktok-transcript": {
+      "type": "http",
+      "url": "https://api.agentbody.io/mcp/tiktok-transcript",
       "headers": {
         "Authorization": "Bearer <AGENT_BODY_API_KEY>"
       }
@@ -113,7 +130,28 @@ Access to Agent Body MCP services is provided through the [Agent Body community 
 }
 ```
 
-Replace `<AGENT_BODY_API_KEY>` with the credential provided by the community. Each MCP server name matches its Skill name. Keep only the services you need. Store the credential in your platform's secret store and never commit it to a Skill or repository.
+Replace `<AGENT_BODY_API_KEY>` with the credential provided by the community. Keep only the services you need. Store the credential in your platform's secret store and never commit it to a Skill or repository. Legacy paths such as `/mcp`, `/people-data/mcp`, and `/humanizer/mcp` are not supported.
+
+## Call REST API
+
+REST and MCP expose the same Tools through the same authorization, validation, billing, and usage pipeline. List the Tools visible to the current API key:
+
+```bash
+curl https://api.agentbody.io/v1/tools \
+  -H "Authorization: Bearer ${AGENT_BODY_API_KEY}"
+```
+
+Call any Tool by its dotted Tool ID:
+
+```bash
+curl -X POST https://api.agentbody.io/v1/tools/linkedin.email_lookup/call \
+  -H "Authorization: Bearer ${AGENT_BODY_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: lookup-001" \
+  --data '{"profileUrl":"https://www.linkedin.com/in/example"}'
+```
+
+Successful calls return `{"data": {...}}`. Errors return `{"error":{"code":"...","message":"..."}}`. `Idempotency-Key` is optional but recommended for retryable calls. Each Skill's Tool Reference maps dotted REST Tool IDs to MCP Tool names and records the exact input contract.
 
 ## Contributing
 
