@@ -38,7 +38,9 @@ Optional inputs:
 | `limit` | integer | 1-100; defaults to 20 |
 | `cursor` | string | Return the previous `nextCursor` unchanged |
 | `status` | string | `reserved`, `success`, `failed`, or `released` |
-| `service` | string | Exact public service filter |
+| `service` | string | Exact public service filter; see the list below |
 | `toolId` | string | Exact dotted Tool ID filter |
 
-This tool does not accept `from` or `to`. Each record contains `requestId`, `protocol`, `service`, `tool`, `status`, `chargedUsd`, `durationMs`, `createdAt`, and `completedAt`. A response includes `nextCursor` only when another page exists.
+Valid `service` values are `account`, `usage`, `linkedin`, `youtube`, `tiktok`, `document`, `humanizer`, `find_leads`, `competitor_monitoring`, and `demand_research`.
+
+This tool does not accept `from` or `to`. Each record contains `requestId`, `protocol`, `service`, `tool`, `status`, `chargedUsd`, `durationMs`, `createdAt`, and `completedAt`. `protocol` is `api` for REST calls and `mcp` for MCP calls. A response includes `nextCursor` only when another page exists.

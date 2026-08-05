@@ -52,7 +52,7 @@
 | [find-leads](skills/find-leads/SKILL.md) | `/mcp/find-leads` | “查找最近在 Reddit 寻找 CRM 替代方案的创业者。” |
 | [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/mcp/competitor-monitoring` | “调研近期客户对这个竞品的评价。” |
 | [demand-research](skills/demand-research/SKILL.md) | `/mcp/demand-research` | “调研财务自动化的预算和购买意向信号。” |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “解析这个 PDF，并将第 1 到第 5 页输出为 Markdown。” |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “解析这个 HTTPS 链接对应的 PDF，并将第 1 到第 5 页输出为 Markdown。” |
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/mcp/humanizer` | “在保留全部事实的前提下自然化改写这段文字。” |
 | [youtube-transcript](skills/youtube-transcript/SKILL.md) | `/mcp/youtube-transcript` | “提取这个 YouTube 视频的英文字幕。” |
 | [tiktok-transcript](skills/tiktok-transcript/SKILL.md) | `/mcp/tiktok-transcript` | “提取这个 TikTok 视频已有的字幕。” |
@@ -160,7 +160,7 @@ MCP 客户端通过 `tools/call` 调用 Tool，协议请求结构如下：
 | `/mcp/find-leads` | `find_leads_create_monitor`, `find_leads_get_signals`, `find_leads_review_signals` | `find_leads_create_monitor {"objective":"Find founders seeking CRM alternatives","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/competitor-monitoring` | `competitor_monitoring_create_monitor`, `competitor_monitoring_get_signals`, `competitor_monitoring_review_signals` | `competitor_monitoring_create_monitor {"objective":"Research reactions to Acme CRM","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/demand-research` | `demand_research_create_monitor`, `demand_research_get_signals`, `demand_research_review_signals` | `demand_research_create_monitor {"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit"}` |
-| `/mcp/document-parsing` | `document_upload`, `document_parsing`, `document_result_get` | `document_upload {"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
+| `/mcp/document-parsing` | `document_parsing`, `document_result_get` | `document_parsing {"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `/mcp/humanizer` | `humanizer_text` | `humanizer_text {"text":"This is the text to rewrite.","mode":"balanced"}` |
 | `/mcp/youtube-transcript` | `youtube_transcript` | `youtube_transcript {"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |
 | `/mcp/tiktok-transcript` | `tiktok_transcript`, `tiktok_audio_to_transcript` | `tiktok_transcript {"url":"https://www.tiktok.com/@example/video/VIDEO_ID","language":"en"}` |
@@ -188,7 +188,7 @@ curl -X POST https://api.agentbody.io/v1/tools/linkedin.email_lookup/call \
   --data '{"profileUrl":"https://www.linkedin.com/in/example"}'
 ```
 
-REST 包含一个发现 endpoint 和 24 个具体 Tool 调用 endpoint。使用下表中的 JSON 请求体，并携带与上例相同的 Bearer 和 `Content-Type` 请求头。
+REST 包含一个发现 endpoint 和 23 个具体 Tool 调用 endpoint。使用下表中的 JSON 请求体，并携带与上例相同的 Bearer 和 `Content-Type` 请求头。
 
 | REST endpoint | JSON 请求体示例 |
 |---|---|
@@ -210,8 +210,7 @@ REST 包含一个发现 endpoint 和 24 个具体 Tool 调用 endpoint。使用�
 | `POST /v1/tools/demand_research.create_monitor/call` | `{"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit","limits":{"target":5}}` |
 | `POST /v1/tools/demand_research.get_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","search_queries":[{"source":"reddit","query":"accounting automation budget","strategy":"relevance","time_window":"quarter"}],"limit":5}` |
 | `POST /v1/tools/demand_research.review_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","reviews":[{"lead_id":"LEAD_ID","verdict":"relevant","reason":"Contains a budget statement"}]}` |
-| `POST /v1/tools/document.upload/call` | `{"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
-| `POST /v1/tools/document.parsing/call` | `{"uploadId":"550e8400-e29b-41d4-a716-446655440000"}` |
+| `POST /v1/tools/document.parsing/call` | `{"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `POST /v1/tools/document.result.get/call` | `{"documentId":"550e8400-e29b-41d4-a716-446655440000","pageStart":1,"pageEnd":10}` |
 | `POST /v1/tools/humanizer.text/call` | `{"text":"This is the text to rewrite.","language":"en","mode":"balanced"}` |
 | `POST /v1/tools/youtube.transcript/call` | `{"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |
@@ -219,6 +218,97 @@ REST 包含一个发现 endpoint 和 24 个具体 Tool 调用 endpoint。使用�
 | `POST /v1/tools/tiktok.audio_to_transcript/call` | `{"url":"https://www.tiktok.com/@example/video/VIDEO_ID"}` |
 
 成功响应为 `{"data": {...}}`，错误响应为 `{"error":{"code":"...","message":"..."}}`。`Idempotency-Key` 是可选请求头，建议用于可能重试的调用。API Key 权限和运行时启用状态共同决定 `GET /v1/tools` 返回哪些 Tools。
+
+`GET /v1/tools` 为每个可见 Tool 返回一条记录。`input_schema` 和 `output_schema` 是完整的 JSON Schema，下例中的 output schema 为便于阅读做了省略。
+
+```json
+{
+  "data": [
+    {
+      "id": "linkedin.email_lookup",
+      "name": "linkedin_email_lookup",
+      "description": "Look up an email address from a LinkedIn profile URL.",
+      "input_schema": {
+        "type": "object",
+        "properties": {"profileUrl": {"type": "string", "format": "uri"}},
+        "required": ["profileUrl"],
+        "additionalProperties": false
+      },
+      "output_schema": {"type": "object"},
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    }
+  ]
+}
+```
+
+`name` 恒为 Tool ID 将点号替换为下划线的结果，也就是对应的 MCP Tool 名。价格、Provider 名称、Provider URL 和凭据不会出现在任何响应中。
+
+## 合同与限制
+
+以下规则对 REST 和 MCP 完全一致，因为两种协议共享同一个 Executor。
+
+### 授权
+
+API Key 使用两种访问模式之一：
+
+| 模式 | 行为 |
+|---|---|
+| `all` | 可调用所有业务 Tool |
+| `restricted` | 只能调用显式授予该 Key 的业务 Tool |
+
+三个 Tool 的行为不同：
+
+- `account.quota`、`usage.summary`、`usage.history` 对任何已认证 Key 均可用（与访问模式无关），不消耗余额，也不写 Usage 记录。
+- `document.result.get` 不能单独授权。Key 只有在拥有 `document.parsing` 权限时才能访问它，且每份解析结果只对创建它的 Key 可见。
+
+### 错误码
+
+业务失败返回稳定的错误码。REST 放在 `error.code`，MCP 设置 `isError: true` 并放在 `structuredContent.code`。服务只会返回下列错误码，其他内部情况统一归并为 `UPSTREAM_INVALID_RESPONSE`。
+
+| 错误码 | HTTP | 含义 |
+|---|---:|---|
+| `UNAUTHORIZED` | 401 | API Key 缺失、格式错误、已吊销或已过期 |
+| `TOOL_FORBIDDEN` | 403 | Key 已认证但无此 Tool 权限 |
+| `TOOL_NOT_FOUND` | 404 | Tool ID 不存在，或该 Tool 运行时已停用 |
+| `DOCUMENT_RESULT_NOT_FOUND` | 404 | 当前 Key 下不存在该 ID 的解析结果 |
+| `INVALID_ARGUMENTS` | 400 | 参数未通过 Schema 或输入校验 |
+| `LANGUAGE_UNAVAILABLE` | 400 | 请求的字幕语言不可用 |
+| `INSUFFICIENT_BALANCE` | 402 | 账户余额或 Key 消费上限不足以覆盖本次调用 |
+| `IDEMPOTENCY_CONFLICT` | 409 | 该幂等键已用于参数不同的请求 |
+| `IDEMPOTENCY_IN_PROGRESS` | 409 | 相同幂等键的请求仍在执行中 |
+| `TRANSCRIPT_UNAVAILABLE` | 422 | 未找到可用的已有字幕轨道 |
+| `UPSTREAM_INVALID_RESPONSE` | 502 | 能力调用未能完成 |
+| `UPSTREAM_TIMEOUT` | 504 | 能力调用超时 |
+
+错误 `message` 有意保持通用。请基于 `code` 分支处理，不要解析 `message`。
+
+### 幂等
+
+REST 读取 `Idempotency-Key`，MCP 读取 `X-Idempotency-Key`。幂等键保留 24 小时，并与首次使用时的参数严格绑定。重放已完成的请求会返回原始结果且不重复计费；用相同键提交不同参数会返回 `IDEMPOTENCY_CONFLICT`。
+
+### 请求限制
+
+| 协议 | 请求体上限 | 超限响应 |
+|---|---|---|
+| REST | 2 MiB | `400 INVALID_ARGUMENTS` |
+| MCP | 1 MiB | `413`，空响应体 |
+
+### 计费模型
+
+失败、被拒绝、超时和鉴权失败的调用一律不收费。多数 Tool 按成功调用计费一次。以下三个 Tool 按实际消耗单位计量，在调用成功后按实际用量结算：
+
+| Tool | 计费单位 | 单次上限 |
+|---|---|---|
+| `document.parsing` | 页 | 100 页 |
+| `humanizer.text` | 每 1,000 words，向上取整 | 20 个单位 |
+| `tiktok.audio_to_transcript` | 起始分钟 | 10 分钟 |
+
+`document.result.get` 免费，但写入零金额 Usage 记录。account 和 usage 类 Tool 免费且不写 Usage 记录。具体单位价格随 API Key 一并提供。
 
 ## 贡献
 

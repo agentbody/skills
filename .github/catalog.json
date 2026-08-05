@@ -1,0 +1,70 @@
+{
+  "version": "2026-08-05",
+  "comment": "Snapshot of the public Agent Body capability contract. Mirrors api/mcp-tools.json and the OpenAPI ToolID enum in the Gateway service. Update this file in the same pull request that documents a Tool change; .github/scripts/validate_skills.py validates the Markdown against it.",
+  "servers": [
+    {
+      "path": "/mcp/account",
+      "name": "agentbody-account",
+      "tools": ["account.quota", "usage.summary", "usage.history"]
+    },
+    {
+      "path": "/mcp/people-data",
+      "name": "agentbody-people-data",
+      "tools": [
+        "linkedin.email_lookup",
+        "linkedin.phone_lookup",
+        "linkedin.person_profile",
+        "linkedin.people_search",
+        "youtube.email_finder"
+      ]
+    },
+    {
+      "path": "/mcp/find-leads",
+      "name": "agentbody-find-leads",
+      "tools": [
+        "find_leads.create_monitor",
+        "find_leads.get_signals",
+        "find_leads.review_signals"
+      ]
+    },
+    {
+      "path": "/mcp/competitor-monitoring",
+      "name": "agentbody-competitor-monitoring",
+      "tools": [
+        "competitor_monitoring.create_monitor",
+        "competitor_monitoring.get_signals",
+        "competitor_monitoring.review_signals"
+      ]
+    },
+    {
+      "path": "/mcp/demand-research",
+      "name": "agentbody-demand-research",
+      "tools": [
+        "demand_research.create_monitor",
+        "demand_research.get_signals",
+        "demand_research.review_signals"
+      ]
+    },
+    {
+      "path": "/mcp/document-parsing",
+      "name": "agentbody-document-parsing",
+      "tools": ["document.parsing", "document.result.get"]
+    },
+    {
+      "path": "/mcp/humanizer",
+      "name": "agentbody-humanizer",
+      "tools": ["humanizer.text"]
+    },
+    {
+      "path": "/mcp/youtube-transcript",
+      "name": "agentbody-youtube-transcript",
+      "tools": ["youtube.transcript"]
+    },
+    {
+      "path": "/mcp/tiktok-transcript",
+      "name": "agentbody-tiktok-transcript",
+      "tools": ["tiktok.transcript", "tiktok.audio_to_transcript"]
+    }
+  ],
+  "inputFieldNamesInToolNamespace": ["linkedin_url"]
+}
