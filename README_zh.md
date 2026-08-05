@@ -219,7 +219,7 @@ REST 包含一个发现 endpoint 和 23 个具体 Tool 调用 endpoint。使用�
 
 成功响应为 `{"data": {...}}`，错误响应为 `{"error":{"code":"...","message":"..."}}`。`Idempotency-Key` 是可选请求头，建议用于可能重试的调用。API Key 权限和运行时启用状态共同决定 `GET /v1/tools` 返回哪些 Tools。
 
-`GET /v1/tools` 为每个可见 Tool 返回一条记录：
+`GET /v1/tools` 为每个可见 Tool 返回一条记录。`input_schema` 和 `output_schema` 是完整的 JSON Schema，下例中的 output schema 为便于阅读做了省略。
 
 ```json
 {
@@ -228,8 +228,13 @@ REST 包含一个发现 endpoint 和 23 个具体 Tool 调用 endpoint。使用�
       "id": "linkedin.email_lookup",
       "name": "linkedin_email_lookup",
       "description": "Look up an email address from a LinkedIn profile URL.",
-      "input_schema": {},
-      "output_schema": {},
+      "input_schema": {
+        "type": "object",
+        "properties": {"profileUrl": {"type": "string", "format": "uri"}},
+        "required": ["profileUrl"],
+        "additionalProperties": false
+      },
+      "output_schema": {"type": "object"},
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -241,7 +246,7 @@ REST 包含一个发现 endpoint 和 23 个具体 Tool 调用 endpoint。使用�
 }
 ```
 
-价格、Provider 名称、Provider URL 和凭据不会出现在任何响应中。
+`name` 恒为 Tool ID 将点号替换为下划线的结果，也就是对应的 MCP Tool 名。价格、Provider 名称、Provider URL 和凭据不会出现在任何响应中。
 
 ## 合同与限制
 

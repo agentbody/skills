@@ -219,7 +219,7 @@ There is one discovery endpoint and 23 concrete Tool call endpoints. Use the JSO
 
 Successful calls return `{"data": {...}}`. Errors return `{"error":{"code":"...","message":"..."}}`. `Idempotency-Key` is optional but recommended for retryable calls. API key permissions and runtime enablement determine which Tools appear in `GET /v1/tools`.
 
-`GET /v1/tools` returns one entry per visible Tool:
+`GET /v1/tools` returns one entry per visible Tool. `input_schema` and `output_schema` are complete JSON Schemas; the output schema below is abbreviated for readability.
 
 ```json
 {
@@ -228,8 +228,13 @@ Successful calls return `{"data": {...}}`. Errors return `{"error":{"code":"..."
       "id": "linkedin.email_lookup",
       "name": "linkedin_email_lookup",
       "description": "Look up an email address from a LinkedIn profile URL.",
-      "input_schema": {},
-      "output_schema": {},
+      "input_schema": {
+        "type": "object",
+        "properties": {"profileUrl": {"type": "string", "format": "uri"}},
+        "required": ["profileUrl"],
+        "additionalProperties": false
+      },
+      "output_schema": {"type": "object"},
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -241,7 +246,7 @@ Successful calls return `{"data": {...}}`. Errors return `{"error":{"code":"..."
 }
 ```
 
-Prices, provider names, provider URLs, and credentials are never part of a response.
+`name` is always the Tool ID with dots replaced by underscores, which is exactly the MCP Tool name. Prices, provider names, provider URLs, and credentials are never part of a response.
 
 ## Contracts and limits
 
