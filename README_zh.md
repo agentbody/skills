@@ -52,7 +52,7 @@
 | [find-leads](skills/find-leads/SKILL.md) | `/mcp/find-leads` | “查找最近在 Reddit 寻找 CRM 替代方案的创业者。” |
 | [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/mcp/competitor-monitoring` | “调研近期客户对这个竞品的评价。” |
 | [demand-research](skills/demand-research/SKILL.md) | `/mcp/demand-research` | “调研财务自动化的预算和购买意向信号。” |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “解析这个 PDF，并将第 1 到第 5 页输出为 Markdown。” |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “解析这个 HTTPS 链接对应的 PDF，并将第 1 到第 5 页输出为 Markdown。” |
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/mcp/humanizer` | “在保留全部事实的前提下自然化改写这段文字。” |
 | [youtube-transcript](skills/youtube-transcript/SKILL.md) | `/mcp/youtube-transcript` | “提取这个 YouTube 视频的英文字幕。” |
 | [tiktok-transcript](skills/tiktok-transcript/SKILL.md) | `/mcp/tiktok-transcript` | “提取这个 TikTok 视频已有的字幕。” |
@@ -160,7 +160,7 @@ MCP 客户端通过 `tools/call` 调用 Tool，协议请求结构如下：
 | `/mcp/find-leads` | `find_leads_create_monitor`, `find_leads_get_signals`, `find_leads_review_signals` | `find_leads_create_monitor {"objective":"Find founders seeking CRM alternatives","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/competitor-monitoring` | `competitor_monitoring_create_monitor`, `competitor_monitoring_get_signals`, `competitor_monitoring_review_signals` | `competitor_monitoring_create_monitor {"objective":"Research reactions to Acme CRM","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/demand-research` | `demand_research_create_monitor`, `demand_research_get_signals`, `demand_research_review_signals` | `demand_research_create_monitor {"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit"}` |
-| `/mcp/document-parsing` | `document_upload`, `document_parsing`, `document_result_get` | `document_upload {"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
+| `/mcp/document-parsing` | `document_parsing`, `document_result_get` | `document_parsing {"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `/mcp/humanizer` | `humanizer_text` | `humanizer_text {"text":"This is the text to rewrite.","mode":"balanced"}` |
 | `/mcp/youtube-transcript` | `youtube_transcript` | `youtube_transcript {"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |
 | `/mcp/tiktok-transcript` | `tiktok_transcript`, `tiktok_audio_to_transcript` | `tiktok_transcript {"url":"https://www.tiktok.com/@example/video/VIDEO_ID","language":"en"}` |
@@ -188,7 +188,7 @@ curl -X POST https://api.agentbody.io/v1/tools/linkedin.email_lookup/call \
   --data '{"profileUrl":"https://www.linkedin.com/in/example"}'
 ```
 
-REST 包含一个发现 endpoint 和 24 个具体 Tool 调用 endpoint。使用下表中的 JSON 请求体，并携带与上例相同的 Bearer 和 `Content-Type` 请求头。
+REST 包含一个发现 endpoint 和 23 个具体 Tool 调用 endpoint。使用下表中的 JSON 请求体，并携带与上例相同的 Bearer 和 `Content-Type` 请求头。
 
 | REST endpoint | JSON 请求体示例 |
 |---|---|
@@ -210,8 +210,7 @@ REST 包含一个发现 endpoint 和 24 个具体 Tool 调用 endpoint。使用�
 | `POST /v1/tools/demand_research.create_monitor/call` | `{"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit","limits":{"target":5}}` |
 | `POST /v1/tools/demand_research.get_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","search_queries":[{"source":"reddit","query":"accounting automation budget","strategy":"relevance","time_window":"quarter"}],"limit":5}` |
 | `POST /v1/tools/demand_research.review_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","reviews":[{"lead_id":"LEAD_ID","verdict":"relevant","reason":"Contains a budget statement"}]}` |
-| `POST /v1/tools/document.upload/call` | `{"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
-| `POST /v1/tools/document.parsing/call` | `{"uploadId":"550e8400-e29b-41d4-a716-446655440000"}` |
+| `POST /v1/tools/document.parsing/call` | `{"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `POST /v1/tools/document.result.get/call` | `{"documentId":"550e8400-e29b-41d4-a716-446655440000","pageStart":1,"pageEnd":10}` |
 | `POST /v1/tools/humanizer.text/call` | `{"text":"This is the text to rewrite.","language":"en","mode":"balanced"}` |
 | `POST /v1/tools/youtube.transcript/call` | `{"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |

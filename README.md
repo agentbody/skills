@@ -52,7 +52,7 @@ Installed Skills use the listed MCP endpoint on `api.agentbody.io` over HTTPS po
 | [find-leads](skills/find-leads/SKILL.md) | `/mcp/find-leads` | “Find recent Reddit posts from founders looking for CRM alternatives.” |
 | [competitor-monitoring](skills/competitor-monitoring/SKILL.md) | `/mcp/competitor-monitoring` | “Research recent customer reactions to this competitor.” |
 | [demand-research](skills/demand-research/SKILL.md) | `/mcp/demand-research` | “Research budget and buying-intent signals for accounting automation.” |
-| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “Parse this PDF and return pages 1 through 5 as Markdown.” |
+| [document-parsing](skills/document-parsing/SKILL.md) | `/mcp/document-parsing` | “Parse the PDF at this HTTPS link and return pages 1 through 5 as Markdown.” |
 | [humanize-writing](skills/humanize-writing/SKILL.md) | `/mcp/humanizer` | “Rewrite this text naturally while preserving all facts.” |
 | [youtube-transcript](skills/youtube-transcript/SKILL.md) | `/mcp/youtube-transcript` | “Extract the English transcript from this YouTube video.” |
 | [tiktok-transcript](skills/tiktok-transcript/SKILL.md) | `/mcp/tiktok-transcript` | “Extract the existing captions from this TikTok video.” |
@@ -160,7 +160,7 @@ MCP clients invoke Tools with `tools/call`. The protocol request has this shape:
 | `/mcp/find-leads` | `find_leads_create_monitor`, `find_leads_get_signals`, `find_leads_review_signals` | `find_leads_create_monitor {"objective":"Find founders seeking CRM alternatives","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/competitor-monitoring` | `competitor_monitoring_create_monitor`, `competitor_monitoring_get_signals`, `competitor_monitoring_review_signals` | `competitor_monitoring_create_monitor {"objective":"Research reactions to Acme CRM","until":"Collect 5 relevant signals","source":"reddit"}` |
 | `/mcp/demand-research` | `demand_research_create_monitor`, `demand_research_get_signals`, `demand_research_review_signals` | `demand_research_create_monitor {"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit"}` |
-| `/mcp/document-parsing` | `document_upload`, `document_parsing`, `document_result_get` | `document_upload {"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
+| `/mcp/document-parsing` | `document_parsing`, `document_result_get` | `document_parsing {"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `/mcp/humanizer` | `humanizer_text` | `humanizer_text {"text":"This is the text to rewrite.","mode":"balanced"}` |
 | `/mcp/youtube-transcript` | `youtube_transcript` | `youtube_transcript {"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |
 | `/mcp/tiktok-transcript` | `tiktok_transcript`, `tiktok_audio_to_transcript` | `tiktok_transcript {"url":"https://www.tiktok.com/@example/video/VIDEO_ID","language":"en"}` |
@@ -188,7 +188,7 @@ curl -X POST https://api.agentbody.io/v1/tools/linkedin.email_lookup/call \
   --data '{"profileUrl":"https://www.linkedin.com/in/example"}'
 ```
 
-There is one discovery endpoint and 24 concrete Tool call endpoints. Use the JSON body shown below with the same Bearer and `Content-Type` headers as the example.
+There is one discovery endpoint and 23 concrete Tool call endpoints. Use the JSON body shown below with the same Bearer and `Content-Type` headers as the example.
 
 | REST endpoint | Example JSON body |
 |---|---|
@@ -210,8 +210,7 @@ There is one discovery endpoint and 24 concrete Tool call endpoints. Use the JSO
 | `POST /v1/tools/demand_research.create_monitor/call` | `{"objective":"Research demand for accounting automation","until":"Collect 5 budget or intent signals","source":"reddit","limits":{"target":5}}` |
 | `POST /v1/tools/demand_research.get_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","search_queries":[{"source":"reddit","query":"accounting automation budget","strategy":"relevance","time_window":"quarter"}],"limit":5}` |
 | `POST /v1/tools/demand_research.review_signals/call` | `{"monitor_id":"MONITOR_ID","monitor_token":"MONITOR_TOKEN","reviews":[{"lead_id":"LEAD_ID","verdict":"relevant","reason":"Contains a budget statement"}]}` |
-| `POST /v1/tools/document.upload/call` | `{"fileName":"report.pdf","contentType":"application/pdf","sizeBytes":123456}` |
-| `POST /v1/tools/document.parsing/call` | `{"uploadId":"550e8400-e29b-41d4-a716-446655440000"}` |
+| `POST /v1/tools/document.parsing/call` | `{"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}` |
 | `POST /v1/tools/document.result.get/call` | `{"documentId":"550e8400-e29b-41d4-a716-446655440000","pageStart":1,"pageEnd":10}` |
 | `POST /v1/tools/humanizer.text/call` | `{"text":"This is the text to rewrite.","language":"en","mode":"balanced"}` |
 | `POST /v1/tools/youtube.transcript/call` | `{"url":"https://www.youtube.com/watch?v=VIDEO_ID","language":"en"}` |

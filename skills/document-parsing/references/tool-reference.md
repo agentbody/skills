@@ -4,7 +4,6 @@ MCP server: `/mcp/document-parsing`
 
 | Tool ID | MCP Tool |
 |---|---|
-| `document.upload` | `document_upload` |
 | `document.parsing` | `document_parsing` |
 | `document.result.get` | `document_result_get` |
 
@@ -12,31 +11,25 @@ REST uses `POST /v1/tools/{tool_id}/call`.
 
 Successful calls return the business result in `data`.
 
-## `document_upload`
+## `document_parsing`
 
-Creates a short-lived upload session for a local file.
+This Tool accepts URL input only:
+
+```json
+{"fileUrl":"https://files.example.com/report.pdf","fileName":"report.pdf"}
+```
 
 | Field | Type | Required | Rules |
 |---|---|---:|---|
+| `fileUrl` | string | Yes | HTTPS only, up to 1,024 characters, must include a host, must not contain userinfo |
 | `fileName` | string | Yes | 1-255 characters |
-| `contentType` | string | Yes | 1-128 characters |
-| `sizeBytes` | integer | Yes | 1-52,428,800 bytes by default |
+| `analysisChart` | boolean | No | Optional parsing option |
+| `mergeTables` | boolean | No | Optional parsing option |
+| `relevelTitles` | boolean | No | Optional parsing option |
+| `recognizeSeal` | boolean | No | Optional parsing option |
+| `returnSpanBoxes` | boolean | No | Optional parsing option |
 
-The result contains `uploadId`, `uploadUrl`, `method` (`PUT`), `headers`, `expiresAt`, and `maxBytes`. Stream the exact local file as raw bytes with the returned method and headers. The default session lifetime is 30 minutes.
-
-## `document_parsing`
-
-Use exactly one source form:
-
-```json
-{"uploadId":"<uuid>"}
-```
-
-```json
-{"fileUrl":"https://example.com/report.pdf","fileName":"report.pdf"}
-```
-
-`fileUrl` must use HTTPS and is limited to 1,024 characters. Optional booleans are `analysisChart`, `mergeTables`, `relevelTitles`, `recognizeSeal`, and `returnSpanBoxes`.
+No other fields are accepted. `uploadId`, local paths, `file://` URLs, HTTP URLs, credential-bearing URLs, Base64 payloads, and multipart uploads are rejected as `INVALID_ARGUMENTS` without charge.
 
 The result contains `documentId`, `pages`, `preview`, and `read`. Documents are limited to 100 pages and normalized stored results to 8 MiB.
 
@@ -55,17 +48,4 @@ Optional ranges:
 
 Results are scoped to the API key that created the parsed document. The result contains `documentId`, returned page coverage, `pages`, `markdown`, `blocks`, and `markdownSpans`.
 
-## Local upload bridge
-
-Pass the values returned by `document_upload` to the bundled script:
-
-```bash
-python scripts/upload_document.py \
-  --file ./report.pdf \
-  --upload-url "<temporary-upload-url>" \
-  --method PUT \
-  --headers-file ./temporary-upload-headers.json \
-  --max-bytes 52428800
-```
-
-Do not log or retain the signed URL and headers after the upload completes.
+This Tool cannot be granted on its own. An API key reaches it only by holding `document.parsing` access, and it returns `DOCUMENT_RESULT_NOT_FOUND` for a document created by a different key.
