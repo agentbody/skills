@@ -17,6 +17,12 @@ Thanks for improving the Agent Body Skill catalog.
    python .github/scripts/validate_skills.py
    ```
 
+## Keep the documented contract in sync
+
+`.github/catalog.json` is the snapshot of the live capability contract: every MCP endpoint, MCP Tool, and dotted Tool ID that the service actually exposes. Validation fails when a Markdown file mentions a Tool or endpoint that is not in the snapshot, which is how removed capabilities are caught before they reach users.
+
+When a Tool is added, renamed, or removed in the Gateway service, update `.github/catalog.json` in the same pull request that updates the affected README tables and Skill references.
+
 ## Pull requests
 
 Describe the user-facing capability, the MCP server/tool names involved, and any behavior or safety changes. Add or update examples when they clarify triggering or result handling.

@@ -12,5 +12,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Validate Skill metadata and layout
+      - name: Validate Skill metadata, layout, and documented Tool contract
         run: python .github/scripts/validate_skills.py
